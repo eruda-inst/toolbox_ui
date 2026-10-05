@@ -17,6 +17,7 @@ import {
   toast,
   Typography,
 } from "@heroui/react";
+import { isAxiosError } from "axios";
 import { tostadaFf } from "@/configurations/font.config";
 import { AuthenticationInType } from "@/types/authentication.type";
 import { AuthenticationInSchema } from "@/schemas/authentication.schema";
@@ -53,7 +54,18 @@ export default function Home() {
       }
     } catch (error: unknown) {
       setCredentials({ email: "", password: "" });
-      toast.danger("Erro ao fazer login");
+
+      let detail;
+
+      if (isAxiosError(error)) {
+        detail = error.response?.data?.detail;
+      } else if (error instanceof Error) {
+        detail = error.message;
+      } else {
+        detail = "Error during login";
+      }
+
+      toast.danger(detail);
       console.error(error);
     } finally {
       setIsSubmitting(false);
