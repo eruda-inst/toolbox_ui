@@ -1,3 +1,3 @@
 # Toolbox
 
-Plataforma de centralização de ferramentas utilizadas na Newnet.
+Hub to centralize tools used in Newnet.

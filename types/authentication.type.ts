@@ -1,7 +1,11 @@
 import z from "zod";
-import { credInSchema, tokenOutSchema } from "@/schemas/authentication.schema";
+import {
+  AuthenticationInSchema,
+  AuthenticationOutSchema,
+} from "@/schemas/authentication.schema";
 
-type CredIn = z.infer<typeof credInSchema>;
-type TokenOut = z.infer<typeof tokenOutSchema>;
+type AuthenticationInType = z.infer<typeof AuthenticationInSchema>;
 
-export type { CredIn, TokenOut };
+type AuthenticationOutType = z.infer<typeof AuthenticationOutSchema>;
+
+export type { AuthenticationInType, AuthenticationOutType };

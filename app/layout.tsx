@@ -1,24 +1,20 @@
-import type { Metadata } from "next";
-import { plusJakartaSans } from "@/configs/font.config";
-import Providers from "@/app/providers";
+import type { Metadata, Viewport } from "next";
+import { plusJakartaSans } from "@/configurations/font.config";
 import "@/app/globals.css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Toolbox · Página não encontrada",
-  description:
-    "Plataforma de centralização de ferramentas utilizadas na Newnet",
+  title: "Toolbox · Login",
+  description: "Hub para centralizar ferramentas usadas na Newnet.",
 };
 
-function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = { colorScheme: "dark" };
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="pt-br"
-      suppressHydrationWarning
-      className={`${plusJakartaSans.className} h-full antialiased`}
+      lang="en"
+      className={`${plusJakartaSans.className} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
@@ -26,5 +22,3 @@ function RootLayout({
     </html>
   );
 }
-
-export default RootLayout;

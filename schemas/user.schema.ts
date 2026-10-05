@@ -1,13 +1,12 @@
 import z from "zod";
 
-const userOutSchema = z.object({
-  id: z.number().nonnegative(),
-  nome: z.string(),
+const UserOutSchema = z.object({
+  id: z.number().int().positive(),
+  full_name: z.string(),
   email: z.email(),
-  ativo: z.boolean(),
-  criado_em: z.string(),
-  atualizado_em: z.string().nullable(),
-  id_grupo: z.number().nonnegative(),
+  is_active: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string().nullable(),
 });
 
-export { userOutSchema };
+export { UserOutSchema };

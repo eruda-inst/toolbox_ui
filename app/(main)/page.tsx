@@ -1,9 +1,9 @@
-function Home() {
+import { Typography } from "@heroui/react";
+
+export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <Typography type="h1">Ferramentas</Typography>
+    </>
   );
 }
-
-export default Home;

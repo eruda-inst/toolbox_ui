@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Toolbox · Início",
+  title: "Toolbox · Ferramentas",
 };
 
 function MainLayout({
@@ -9,11 +9,7 @@ function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <>
-      <main>{children}</main>
-    </>
-  );
+  return <main>{children}</main>;
 }
 
 export default MainLayout;

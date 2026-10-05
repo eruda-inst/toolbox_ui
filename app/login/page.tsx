@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import {
   Button,
   Card,
@@ -17,58 +17,58 @@ import {
   toast,
   Typography,
 } from "@heroui/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { tostadaFf } from "@/configs/font.config";
-import { Validator } from "@/utils/Validator";
-import { CredIn } from "@/types/authentication.type";
-import { credInSchema } from "@/schemas/authentication.schema";
-import { Authentication } from "@/services/Authentication";
-import { tokenStorage } from "@/libs/tokenStorage.lib";
+import { tostadaFf } from "@/configurations/font.config";
+import { AuthenticationInType } from "@/types/authentication.type";
+import { AuthenticationInSchema } from "@/schemas/authentication.schema";
+import AuthenticationService from "@/services/Authentication.service";
+import { useAuthenticationStore } from "@/stores/authentication.store";
+import Validator from "@/utilities/Validator.util";
 
-function Login() {
+export default function Home() {
   const router = useRouter();
+
+  const setTokens = useAuthenticationStore((state) => state.setTokens);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [creds, setCreds] = useState<CredIn>({ email: "", senha: "" });
+  const [credentials, setCredentials] = useState<AuthenticationInType>({
+    email: "",
+    password: "",
+  });
 
   const isValidForm = useMemo(() => {
-    const result = credInSchema.safeParse(creds);
+    const result = AuthenticationInSchema.safeParse(credentials);
     return result.success;
-  }, [creds]);
+  }, [credentials]);
 
-  const handleChange = (key: keyof CredIn, value: string) => {
-    setCreds({ ...creds, [key]: value });
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await Authentication.login(creds);
-      if (res) {
-        const { access_token, refresh_token } = res;
-        tokenStorage.setTokens(access_token, refresh_token);
+      const response = await AuthenticationService.login(credentials);
+      if (response) {
+        const { access_token, refresh_token } = response;
+        setTokens(access_token, refresh_token);
         router.replace("/");
       }
-    } catch (e: unknown) {
-      setCreds({ email: "", senha: "" });
+    } catch (error: unknown) {
+      setCredentials({ email: "", password: "" });
       toast.danger("Erro ao fazer login");
-      console.error(e);
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <>
+    <main>
       <Card
         className="max-w-105 w-full mx-auto border-2 border-border-secondary/40 rounded-2xl px-10 mt-18 dark:shadow-[0_0_0_1px_#1f1f20,0_8px_32px_rgba(0,0,0,.55),0_2px_8px_rgba(0,0,0,.3)]"
         variant="tertiary"
       >
         <Card.Header>
           <Typography
-            type="h2"
+            type="h1"
             align="center"
             className={`${tostadaFf.className} py-8`}
           >
@@ -90,7 +90,7 @@ function Login() {
               isRequired
               className="space-y-1"
               type="email"
-              value={creds.email}
+              value={credentials.email}
               validate={(v) => {
                 if (!v.length) {
                   return "Campo obrigatório";
@@ -100,7 +100,9 @@ function Login() {
                 }
                 return null;
               }}
-              onChange={(v) => handleChange("email", v)}
+              onChange={(value) =>
+                setCredentials((previous) => ({ ...previous, email: value }))
+              }
             >
               <Label className="uppercase">E-mail</Label>
 
@@ -113,17 +115,19 @@ function Login() {
               isRequired
               className="space-y-1"
               type={isVisible ? "text" : "password"}
-              value={creds.senha}
-              validate={(v) => {
-                if (!v.length) {
+              value={credentials.password}
+              validate={(value) => {
+                if (!value.length) {
                   return "Campo obrigatório";
                 }
-                if (v.length < 8) {
+                if (value.length < 8) {
                   return "Senha muito curta";
                 }
                 return null;
               }}
-              onChange={(v) => handleChange("senha", v)}
+              onChange={(value) =>
+                setCredentials((previous) => ({ ...previous, password: value }))
+              }
             >
               <Label className="uppercase">Senha</Label>
 
@@ -147,17 +151,6 @@ function Login() {
 
               <FieldError />
             </TextField>
-
-            <Link href="/login/esqueci-minha-senha" replace>
-              <Typography
-                type="body-xs"
-                color="muted"
-                align="end"
-                className="hover:underline"
-              >
-                Esqueci minha senha
-              </Typography>
-            </Link>
 
             <Button
               type="submit"
@@ -185,8 +178,6 @@ function Login() {
           </div>
         </Card.Footer>
       </Card>
-    </>
+    </main>
   );
 }
-
-export default Login;

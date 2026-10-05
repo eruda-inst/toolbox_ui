@@ -1,6 +1,6 @@
 import z from "zod";
-import { userOutSchema } from "@/schemas/user.schema";
+import { UserOutSchema } from "@/schemas/user.schema";
 
-type UserOut = z.infer<typeof userOutSchema>;
+type UserOutType = z.infer<typeof UserOutSchema>;
 
-export type { UserOut };
+export type { UserOutType };

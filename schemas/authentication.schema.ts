@@ -1,15 +1,16 @@
 import z from "zod";
 
-const credInSchema = z.object({
+const AuthenticationInSchema = z.object({
   email: z.email(),
-  senha: z.string().min(8),
+  password: z.string().min(8),
 });
 
-const tokenOutSchema = z.object({
+const AuthenticationOutSchema = z.object({
+  expires_in: z.number().int().nonnegative(),
+  expires_at: z.string(),
+  token_type: z.string(),
   access_token: z.string(),
   refresh_token: z.string(),
-  token_type: z.string(),
-  expires_in: z.number().nonnegative(),
 });
 
-export { credInSchema, tokenOutSchema };
+export { AuthenticationInSchema, AuthenticationOutSchema };
