@@ -25,7 +25,7 @@ import AuthenticationService from "@/services/Authentication.service";
 import { useAuthenticationStore } from "@/stores/authentication.store";
 import Validator from "@/utilities/Validator.util";
 
-export default function Home() {
+export default function LoginPage() {
   const router = useRouter();
 
   const setTokens = useAuthenticationStore((state) => state.setTokens);
