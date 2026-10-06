@@ -63,7 +63,8 @@ const createAxiosClient = (
         originalRequest._retry ||
         originalRequest._skipAuth ||
         originalRequest.withCredentials === false ||
-        originalRequest.url?.includes("/refresh-token")
+        originalRequest.url?.includes("/refresh-token") ||
+        originalRequest.url?.includes("/login")
       ) {
         return Promise.reject(error);
       }
