@@ -2,7 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import {
   Button,
   Card,
@@ -148,12 +148,12 @@ export default function LoginPage() {
 
                 <InputGroup.Suffix>
                   {isVisible ? (
-                    <FaEyeSlash
+                    <MdVisibilityOff
                       className="hover:cursor-pointer text-xl"
                       onClick={() => setIsVisible(false)}
                     />
                   ) : (
-                    <FaEye
+                    <MdVisibility
                       className="hover:cursor-pointer text-xl"
                       onClick={() => setIsVisible(true)}
                     />
