@@ -1,6 +1,14 @@
 import z from "zod";
-import { PermissionOutSchema } from "@/schemas/permission.schema";
+import {
+  PermissionInSchema,
+  PermissionOutSchema,
+  PermissionUpdateSchema,
+} from "@/schemas/permission.schema";
+
+type PermissionInType = z.infer<typeof PermissionInSchema>;
 
 type PermissionOutType = z.infer<typeof PermissionOutSchema>;
 
-export type { PermissionOutType };
+type PermissionUpdateType = z.infer<typeof PermissionUpdateSchema>;
+
+export type { PermissionInType, PermissionOutType, PermissionUpdateType };
